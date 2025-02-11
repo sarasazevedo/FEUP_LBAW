@@ -1,4 +1,4 @@
-# lbaw2432
+# Raffia
 
 ## Vision
 The vision of this project is to create a social network for food enthusiasts, where they can discover, share, and engage with dining experiences worldwide. This platform will offer in-depth reviews, personalized recommendations, and community interactions, empowering food lovers to make informed dining choices and explore new culinary horizons.
