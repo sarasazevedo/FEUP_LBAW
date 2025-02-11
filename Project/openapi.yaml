@@ -1,0 +1,504 @@
+openapi: 3.0.0
+info:
+  title: Raffia
+  description: Description of your API
+  version: 1.0.0
+paths:
+  '/post/{id}/comment':
+    post:
+      summary: Add a comment to a post
+      operationId: 90fb1cad226efa82da1e068591e8cadc
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                content:
+                  type: string
+                  maxLength: 255
+              type: object
+      responses:
+        '200':
+          description: Comment added successfully
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  comment:
+                    $ref: '#/components/schemas/Comment'
+                type: object
+        '422':
+          description: Validation error
+  '/post/{id}/comments':
+    get:
+      summary: Load comments for a post
+      operationId: dab0bb61f6efae2ae7321dc1713ba578
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Comments loaded successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+  '/like-post/{id}':
+    post:
+      summary: Like or unlike a post
+      operationId: a01ad24c58542b26090b2dc243e7f4d1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully liked or unliked the post
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  liked:
+                    type: boolean
+                    nullable: true
+                  unliked:
+                    type: boolean
+                    nullable: true
+                type: object
+        '404':
+          description: Post not found
+  '/likes/{postId}':
+    get:
+      summary: Get likes by post ID
+      operationId: 47bc3262cca8954d783bfc5ab82f72bc
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully retrieved likes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LikePost'
+  '/post/{id}':
+    get:
+      summary: Show the post for a given id
+      operationId: 820a95132e64f02c9c71b2cfc3cadb0b
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: Post not found
+    delete:
+      summary: Delete a post
+      operationId: cdf3a5c9a54637677e9d19e0bd933ab4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Post deleted successfully
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: string
+                type: object
+        '404':
+          description: Post not found
+  /posts:
+    get:
+      summary: Show the feed of posts made by followed users and restaurants
+      operationId: defdc3831ba536184a2f2353075ac97e
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized
+  /api/posts/create:
+    post:
+      summary: Create a new post
+      operationId: 8290ca9ff65b39e8d4f21af94b6b037e
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                content:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                rating:
+                  type: integer
+                  nullable: true
+                restaurant_id:
+                  type: integer
+                  nullable: true
+              type: object
+      responses:
+        '201':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '422':
+          description: Validation error
+  '/posts/{id}':
+    put:
+      summary: Update a post
+      operationId: 06c81121178208730e11d2f6b655e78d
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                content:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                rating:
+                  type: integer
+                  nullable: true
+              type: object
+      responses:
+        '200':
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '422':
+          description: Validation error
+  '/profile/{id}':
+    get:
+      summary: Show the profile for a given id
+      operationId: 7896cd4c9914563bcd4562d735c3de27
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  '/profile/{id}/follow':
+    post:
+      summary: Follow a user
+      operationId: d9fdbd1ecbecc48f6040b9eb93a49161
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully followed the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  '/profile/{id}/unfollow':
+    post:
+      summary: Unfollow a user
+      operationId: cd5c110ff64dfec1ff802ae6527ce52a
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully unfollowed the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  '/profile/{id}/edit':
+    get:
+      summary: Edit the profile for a given id
+      operationId: 13ba8d21152584bd477fbd7090d5cc59
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  /profile/update:
+    post:
+      summary: Update the profile
+      operationId: 64de3f5784fae6c1fc66d45de961f260
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                description:
+                  type: string
+                  nullable: true
+                image:
+                  type: string
+                  format: binary
+                  nullable: true
+              type: object
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '#/components/schemas/User'
+                type: object
+        '422':
+          description: Validation error
+  /restaurants/search:
+    get:
+      summary: Search for restaurants
+      operationId: 62bf429846a612797d8bc95bcc1b0026
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    username:
+                      type: string
+                    email:
+                      type: string
+                    image:
+                      type: string
+                      nullable: true
+                  type: object
+  /search:
+    get:
+      summary: Handles the search functionality for users and posts
+      operationId: 4724040b63b941e77f510ebfaf0d95a1
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - users
+              - posts
+        - name: searchType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - full-text
+              - exact-match
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '422':
+          description: Validation error
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Comment:
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        post_id:
+          type: integer
+        user_id:
+          type: integer
+        datetime:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      type: object
+    LikePost:
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        post_id:
+          type: integer
+        datetime:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      type: object
+    Post:
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        user_id:
+          type: integer
+        images:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      type: object
+    User:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      type: object

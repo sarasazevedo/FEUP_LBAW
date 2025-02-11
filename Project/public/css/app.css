@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@media (max-width: 1023px) {
+    #sidebar nav a {
+        width: 100%;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+        margin-top: 5px;
+        border-radius: 0;
+    }
+
+    #sidebar nav form button {
+        width: 100%;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+        margin-top: 5px;
+        border-radius: 0;
+    }
+
+    #sidebar nav form {
+        margin: 0;
+    }
+
+    #sidebar nav a i {
+        margin-right: 0.5rem;
+    }
+
+    #sidebar nav form button {
+        width: 100%;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
+}
+
+main {
+    line-height: 1.4;
+}

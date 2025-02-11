@@ -1,0 +1,72 @@
+/* Hide elements that are not needed in print */
+header,
+footer,
+nav,
+.no-print,
+#header,
+#footer,
+.no-print#sidebar {
+    display: none;
+}
+
+/* Ensure the content takes the full width */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Adjust font sizes for better readability */
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 12pt;
+}
+
+/* Remove background colors and images */
+body,
+#content {
+    background: none !important;
+    color: #000;
+}
+
+/* Ensure links are visible */
+a {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Adjust table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid #000;
+    padding: 8px;
+}
+
+.page-break {
+    page-break-before: always;
+}
+
+/* Page break for printing */
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
+
+    #header,
+    #footer,
+    #sidebar {
+        display: none;
+    }
+}
